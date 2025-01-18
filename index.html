@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter Trending Topics</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .button {
+            display: block;
+            width: 200px;
+            height: 50px;
+            margin: 20px auto;
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            line-height: 50px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background: #007bff;
+            color: white;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+        p {
+            text-align: center;
+            font-size: 18px;
+        }
+    </style>
+    <script>
+        function fetchTrendingTopics(useSampleData) {
+            const url = useSampleData ? '/run_script?use_sample_data=true' : '/run_script';
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('trend1').innerText = data.trend1 || 'undefined';
+                    document.getElementById('trend2').innerText = data.trend2 || 'undefined';
+                    document.getElementById('trend3').innerText = data.trend3 || 'undefined';
+                    document.getElementById('trend4').innerText = data.trend4 || 'undefined';
+                    document.getElementById('trend5').innerText = data.trend5 || 'undefined';
+                    document.getElementById('fetched_at').innerText = data.date_time || 'undefined';
+                    document.getElementById('ip_address').innerText = data.ip_address || 'undefined';
+                })
+                .catch(error => {
+                    console.error('Error fetching trending topics:', error);
+                });
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Twitter Trending Topics</h1>
+        <div class="button" onclick="fetchTrendingTopics(false)">Fetch Trending Topics</div>
+        <div class="button" onclick="fetchTrendingTopics(true)">Fetch Sample Data</div>
+        <h2>Trending Topics</h2>
+        <ul>
+            <li id="trend1">undefined</li>
+            <li id="trend2">undefined</li>
+            <li id="trend3">undefined</li>
+            <li id="trend4">undefined</li>
+            <li id="trend5">undefined</li>
+        </ul>
+        <p>Fetched at: <span id="fetched_at">undefined</span></p>
+        <p>IP Address: <span id="ip_address">undefined</span></p>
+    </div>
+</body>
+</html>
